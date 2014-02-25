@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    first create a reaction using something similar to the following syntax:
+    <pre>
+    var rusting = new Reaction({
+    reactants: [{ Mg: 1, O: 1 }, { Fe: 1 }],
+    products: [{ Fe: 2, O: 3 }, {Mg:1}]
+    });
+    rusting.toString();
+    </pre>
+    output: <pre data-bind="text: rusting.toString();"></pre>
+    Then make a call to balance the reaction.
+    <pre>
+        balanceReaction(rusting);
+    </pre>
+    output: <pre data-bind="text: rustingExampleTwo.toString();"></pre>
+
+    <script type="text/javascript" src="js/_references.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.1.1.js"></script>
+    <script type="text/javascript" src="js/knockout-3.0.0.js"></script>
+    <script type="text/javascript" src="js/lodash.compat-2.4.1.js"></script>
+    <script type="text/javascript" src="js/sylvester-0.1.3.js"></script>
+    <script type="text/javascript" src="js/Reaction.js"></script>
+    <script type="text/javascript" src="js/stoichiometer.js"></script>
+    <script>
+        var rusting = new Reaction({
+            reactants: [{ Mg: 1, O: 1 }, { Fe: 1 }],
+            products: [{ Fe: 2, O: 3 }, { Mg: 1 }]
+        });
+
+        var rustingExampleTwo = new Reaction({
+            reactants: [{ Mg: 1, O: 1 }, { Fe: 1 }],
+            products: [{ Fe: 2, O: 3 }, { Mg: 1 }]
+        });
+        balanceReaction(rustingExampleTwo);
+        ko.applyBindings()
+    </script>
+</body>
+</html>
