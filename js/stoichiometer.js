@@ -1,7 +1,9 @@
 ﻿/// <reference path="Reaction.js" />
 function balanceReaction(reaction) {
-    reactionElements = reaction.getElements();
-    reactionMolecules = reaction.getMolecules();
+    var reactionElements = reaction.getElements();
+    var reactionMolecules = reaction.getMolecules();
+    //currentFormat: {C:6, H:12, O:6}
+    //targetFormat: {composition: {C:6, H:12, O:6}, molecularFormula:'C6H12O6'}
     var A = _.map(reactionElements, function (element) {
         var matrixRow = [];
         _.each(reaction.reactants, function (reactant) {
