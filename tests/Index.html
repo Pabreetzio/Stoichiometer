@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+    <link type="text/css" rel="stylesheet" href="../style/periodic-table.css" />
 </head>
 <body>
     
@@ -19,7 +20,7 @@
         balanceReaction(rusting);
     </pre>
     output: <pre data-bind="text: rustingExampleTwo.toString();"></pre>
-    <div id="periodic-table">
+    <div id="periodic-table"></div>
 
     <script type="text/javascript" src="../js/jquery-1.11.0.js"></script>
     <script type="text/javascript" src="../js/bootstrap-3.1.1.js"></script>
@@ -43,7 +44,7 @@
         balanceReaction(rustingExampleTwo);
         ko.applyBindings();
 
-        $('#periodic-table').html(new PeriodicTable()[0].outerHTML);
+        new PeriodicTable();
     </script>
 </body>
 </html>
