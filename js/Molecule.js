@@ -11,10 +11,11 @@ Molecule.getComposition = function (formula) {
     var elementGroups = formula.match(/[A-Z][a-z]{0,2}\d*/g);
     _.each(elementGroups, function (elementGroup) {
         var element = elementGroup.match(/[A-Z][a-z]{0,2}/)[0];
-        var quantity = elementGroup.match(/\d/)[0];
+        var elementQuantityStringMatches = elementGroup.match(/\d/);
+        var quantity = elementQuantityStringMatches ? elementQuantityStringMatches[0] : 1;
         typeof composition[element] === 'number' ?
-            composition[element] += 5 :
-            composition[element] = 5;
+            composition[element] += quantity :
+            composition[element] = quantity;
     });
     return composition;
 }

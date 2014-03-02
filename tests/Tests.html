@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    
+    first create a reaction using something similar to the following syntax:
+    <pre>
+        var rusting = new Reaction({
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
+        });
+    rusting.toString();
+    </pre>
+    output: <pre data-bind="text: rusting.toString();"></pre>
+    Then make a call to balance the reaction.
+    <pre>
+        balanceReaction(rusting);
+    </pre>
+    output: <pre data-bind="text: rustingExampleTwo.toString();"></pre>
+    <div id="periodic-table">
+
+    <script type="text/javascript" src="../js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="../js/bootstrap-3.1.1.js"></script>
+    <script type="text/javascript" src="../js/knockout-3.0.0.js"></script>
+    <script type="text/javascript" src="../js/lodash.compat-2.4.1.js"></script>
+    <script type="text/javascript" src="../js/sylvester-0.1.3.js"></script>
+    <script type="text/javascript" src="../js/Reaction.js"></script>
+    <script type="text/javascript" src="../js/Molecule.js"></script>
+    <script type="text/javascript" src="../js/stoichiometer.js"></script>
+    <script type="text/javascript" src="../js/PeriodicTable.js"></script>
+    <script>
+        var rusting = new Reaction({
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
+        });
+
+        var rustingExampleTwo = new Reaction({
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
+        });
+        balanceReaction(rustingExampleTwo);
+        ko.applyBindings();
+
+        $('#periodic-table').html(new PeriodicTable()[0].outerHTML);
+    </script>
+</body>
+</html>
