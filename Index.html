@@ -33,19 +33,18 @@
     <script type="text/javascript" src="js/PeriodicTable.js"></script>
     <script>
         var rusting = new Reaction({
-            reactants: [{ Mg: 1, O: 1 }, { Fe: 1 }],
-            products: [{ Fe: 2, O: 3 }, { Mg: 1 }]
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
         });
 
         var rustingExampleTwo = new Reaction({
-            reactants: [{ Mg: 1, O: 1 }, { Fe: 1 }],
-            products: [{ Fe: 2, O: 3 }, { Mg: 1 }]
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
         });
         balanceReaction(rustingExampleTwo);
         ko.applyBindings();
 
         $('#periodic-table').html(new PeriodicTable()[0].outerHTML);
-
     </script>
 </body>
 </html>

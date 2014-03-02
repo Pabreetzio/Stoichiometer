@@ -1,4 +1,4 @@
-﻿var Rbeaction = function(args){
+﻿var Reaction = function(args){
     var self = this;
     self.reactants = [];
     self.products = [];
@@ -15,7 +15,7 @@
     self.getElements = function () {
         return _(self.getMolecules())
             .map(function (molecule) {
-                return _.keys(molecule);
+                return _.keys(molecule.composition);
             })
             .flatten()
             .union()
@@ -25,7 +25,7 @@
     var moleculeToString = function (molecule) {
         var moleculeString = ''
         if(molecule.coefficient&& molecule.coefficient > 1) moleculeString += molecule.coefficient;
-        moleculeString += _(molecule).omit('coefficient').map(function(value, key){
+        moleculeString += _(molecule.composition).map(function(value, key){
             var symbol = value > 0 ? key: '';
             var quantity = value > 1 ? value : '';
             return  symbol + quantity;
