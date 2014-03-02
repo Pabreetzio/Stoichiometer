@@ -1,4 +1,4 @@
-﻿var Reaction = function(args){
+﻿var Rbeaction = function(args){
     var self = this;
     self.reactants = [];
     self.products = [];

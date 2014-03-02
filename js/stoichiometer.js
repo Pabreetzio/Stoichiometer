@@ -7,7 +7,7 @@ function balanceReaction(reaction) {
     var A = _.map(reactionElements, function (element) {
         var matrixRow = [];
         _.each(reaction.reactants, function (reactant) {
-            matrixRow.push(reactant[element]|| 0);
+            matrixRow.push(reactant.composition[element]|| 0);
         });
         _(reaction.products).first(reaction.products.length - 1).forEach(function (product) {
             matrixRow.push(-product[element]|| 0);
