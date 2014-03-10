@@ -1,4 +1,4 @@
-[{"AtomicNumber":1,"Symbol":"H","Name":"Hydrogen","AtomicMass":1.07947, "Group": 1, "Period": 1, "Block": "s"},
+var tableOfElements = [{"AtomicNumber":1,"Symbol":"H","Name":"Hydrogen","AtomicMass":1.07947, "Group": 1, "Period": 1, "Block": "s"},
 {"AtomicNumber":2,"Symbol":"He","Name":"Helium","AtomicMass":4.002602, "Group": 18, "Period": 1, "Block": "s"},
 {"AtomicNumber":3,"Symbol":"Li","Name":"Lithium","AtomicMass":6.941, "Group": 1, "Period": 2, "Block": "s"},
 {"AtomicNumber":4,"Symbol":"Be","Name":"Beryllium","AtomicMass":9.012182, "Group": 2, "Period": 2, "Block": "s"},

@@ -1,4 +1,5 @@
-﻿var Reaction = function(args){
+﻿//requires molecule
+var Reaction = function (args) {
     var self = this;
     self.reactants = [];
     self.products = [];

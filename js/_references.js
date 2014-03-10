@@ -3,3 +3,4 @@
 /// <reference path="kncokout-3.0.0.debug.js" />
 /// <reference path="lodash.compat-2.4.1.debug.js" />
 /// <reference path="sylvester-0.1.3.debug.js" />
+/// <reference path="jquery.fittext.js" />

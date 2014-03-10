@@ -1,7 +1,7 @@
 ﻿.periodic-table-element-symbol {
   display: block;
   text-align: center;
-  font-size: 22px;
+  width: 100%;
 }
 .periodic-table-element-name {
   font-size: 10px;
@@ -13,18 +13,19 @@
   text-align: right;
   display: block;
 }
-.periodic-table-cell {
+.periodic-table-cell-container {
   display: inline-block;
   vertical-align: top;
-  width: 3em;
-  height: 4.5em;
-  border-style: solid;
-  border-width: 1px;
+  width: 5.5%;
   margin-left: -1px;
   margin-top: -1px;
-  padding: 3px;
   overflow: hidden;
   cursor: pointer;
+}
+.periodic-table-cell {
+  border-style: solid;
+  border-width: 1px;
+  padding: 3px;
 }
 .periodic-table-cell.liquid {
   color: blue;
@@ -34,4 +35,9 @@
 }
 .invisible {
   visibility: hidden;
+}
+.symbol-only .periodic-table-element-name,
+.symbol-only .periodic-table-element-mass,
+.symbol-only .periodic-table-element-number {
+  display: none;
 }
