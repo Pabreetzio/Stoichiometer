@@ -1,0 +1,24 @@
+﻿@{
+    Page.Title = "Stoichiometer";
+}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>@Page.Title</title>
+        @RenderSection("head", required: false)
+        <link type="text/css" rel="stylesheet" href="@Href("~/style/bootstrap.css")" />
+        <link type="text/css" rel="stylesheet" href="@Href("~/style/stoichiometer-site.css")" />
+        @RenderSection("styles", required: false)
+    </head>
+    <body>
+        @RenderPage("~/_Navigation.cshtml")
+        <div id="main-container" class="container">
+            @RenderBody()
+        </div>
+        <script type="text/javascript" src="@Href("js/lib/jquery.js")"></script>
+        <script type="text/javascript" src="@Href("js/lib/bootstrap.js")"></script>
+        <script type="text/javascript" src="@Href("js/lib/knockout.js")"></script>
+        <script type="text/javascript" src="@Href("js/lib/lodash.compat.js")"></script>
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

@@ -1,0 +1,14 @@
+﻿@{Layout = "~/_Layout.cshtml";}
+@section styles{    <link type="text/css" rel="stylesheet" href="@Href("../style/periodic-table.css")" />}
+    <div id="periodic-table-1"></div>
+    <div id="periodic-table-2"></div>
+@section scripts{
+    <script type="text/javascript" src="@Href("~/js/lib/jquery.fittext.js")"></script>
+    <script type="text/javascript" src="@Href("~/data/TableOfElements.js")"></script>
+    <script type="text/javascript" src="@Href("~/js/app/PeriodicTable.js")"></script>
+    <script>
+        $('#periodic-table-1').html(new PeriodicTable({ "class": "symbol-only" }));
+        $('#periodic-table-2').html(new PeriodicTable());
+        $('.periodic-table-element-symbol').fitText(.17);
+    </script>
+}
