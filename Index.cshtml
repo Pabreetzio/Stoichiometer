@@ -8,4 +8,19 @@
     <script type="text/javascript" src="@Href("~/data/TableOfElements.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/PeriodicTable.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")" ></script>
+    <script type="text/javascript">
+        $('#periodic-table').html(new PeriodicTable({ "class": "symbol-only" }));
+        $(document).on('click', '.periodic-table-cell', function (e) {
+            var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').text();
+            var newVal = $('#reactants').val() + symbol;
+            $('#reactants').val(newVal);
+        });
+    </script>
 }
+<i>
+    <input id="reactants"/> 
+    +
+    <input id="products"/>
+    <button id="balance-equation-btn btn">Balance Equation</button>
+</i>
+<div id="periodic-table"></div>
