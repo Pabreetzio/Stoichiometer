@@ -11,10 +11,13 @@
     <script type="text/javascript">
         $('#periodic-table').html(new PeriodicTable({ "class": "symbol-only" }));
         $(document).on('click', '.periodic-table-cell', function (e) {
-            var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').text();
+            var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').texth
             var newVal = $('#reactants').val() + symbol;
             $('#reactants').val(newVal);
         });
+
+        var molecule = new Object();
+
     </script>
 }
 <i>
