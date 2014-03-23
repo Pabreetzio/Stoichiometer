@@ -1,26 +1,45 @@
-﻿/// <reference path="Reaction.js" />
-function balanceReaction(reaction) {
-    var reactionElements = reaction.getElements();
-    var reactionMolecules = reaction.getMolecules();
-    //currentFormat: {C:6, H:12, O:6}
-    //targetFormat: {composition: {C:6, H:12, O:6}, molecularFormula:'C6H12O6'}
-    var A = _.map(reactionElements, function (element) {
-        var matrixRow = [];
-        _.each(reaction.reactants, function (reactant) {
-            matrixRow.push(reactant.composition[element]|| 0);
-        });
-        _(reaction.products).first(reaction.products.length - 1).forEach(function (product) {
-            matrixRow.push(-product.composition[element]|| 0);
-        });
-        return matrixRow;
+﻿$('#periodic-table').html(new PeriodicTable({ "class": "symbol-only" }));
+
+$(document).on('click', '.periodic-table-cell', function (e) {
+    var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').text();
+    var newVal = $('#reactants').val() + symbol;
+    $('#reactants').val(newVal);
+});
+
+$('.periodic-table-cell')
+    .tooltip({
+        html: true,
+        title: function () {
+            return $(this).find('.periodic-table-cell-tooltip').html();
+        }
     });
-    var lastMolecule = reactionMolecules[reactionMolecules.length - 1];
-    var B = _.map(reactionElements, function(element) {
-        return [lastMolecule.composition[element] || 0];
+
+koMolecule = function (molecularFormula) {
+    var self = this;
+    $.extend(self, new Molecule(molecularFormula));
+    self.coefficient = ko.observable(self.coefficient);
+    self.setCoefficient = function (coefficient) {
+        self.coefficient(coefficient);
+    }
+    self.moleculeText = ko.computed(function () {
+        var coefficient = self.coefficient() && self.coefficient() !== 1 ? self.coefficient() : '';
+        return coefficient + self.molecularFormula.replace(/[1-9]/g, '<sub>$&</sub>');
     });
-    var C = $M(A).inverse().multiply($M(B)).multiply($M(A).determinant());
-    lastMolecule.coefficient = $M(A).determinant();
-    _(reactionMolecules).first(reactionMolecules.length - 1).forEach(function (molecule, index) {
-        molecule.coefficient = Math.round(C.elements[index][0]);
-    });
+    return self;
 }
+
+Stoichiometer = function () {
+    var self = this;
+    self.isReactantEntryMode = ko.observable(true);
+    self.enterReactantsEntryMode = function () { self.isReactantEntryMode(true); }
+    self.enterProductsEntryMode = function () { self.isReactantEntryMode(false); }
+    self.reactants = ko.observableArray([new koMolecule('H2'), new koMolecule('O2')]);
+    self.products = ko.observableArray([new koMolecule('H2O')]);
+    self.balance = function () {
+        var reaction = new Reaction({ reactants: self.reactants(), products: self.products() });
+        reaction.balance();
+    }
+    ko.applyBindings(self);
+};
+
+window.stoichiometer = new Stoichiometer();

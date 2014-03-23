@@ -3,24 +3,27 @@
     <link type="text/css" rel="stylesheet" href="@Href("~/style/periodic-table.css")" />
 }
 @section scripts{
+    <script type="text/javascript" src="@Href("~/js/lib/sylvester.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Reaction.js")"></script>
     <script type="text/javascript" src="@Href("~/data/TableOfElements.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/PeriodicTable.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")" ></script>
-    <script type="text/javascript">
-        $('#periodic-table').html(new PeriodicTable({ "class": "symbol-only" }));
-        $(document).on('click', '.periodic-table-cell', function (e) {
-            var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').text();
-            var newVal = $('#reactants').val() + symbol;
-            $('#reactants').val(newVal);
-        });
+    <script type="text/html" id="molecule-template">
+        <div class="tag tag-default">
+            <span  data-bind="html: moleculeText"></span><button class="close" style="margin-left:4px;">&times;</button>
+        </div>
     </script>
+    <script type="text/javascript" src="@Href("~/js/app/stoichiometer.js")" ></script>
 }
-<i>
-    <input id="reactants"/> 
-    +
-    <input id="products"/>
-    <button id="balance-equation-btn btn">Balance Equation</button>
-</i>
+<div class="well">
+    <div class="btn-group">
+        <button class="btn btn-default" data-bind="enable:isReactantEntryMode, click: enterProductsEntryMode">Reactants</button>
+        <button class="btn btn-default" data-bind="disable:isReactantEntryMode, click: enterReactantsEntryMode">Products</button>
+    </div>
+    <i data-bind="template: { name: 'molecule-template', foreach: reactants }"></i>
+    <i class="glyphicon glyphicon-arrow-right"></i>
+    <i data-bind="template: { name: 'molecule-template', foreach: products }"></i>
+    <button class="btn btn-default pull-right" data-bind="click: balance">Balance</button>
+</div>
 <div id="periodic-table"></div>
