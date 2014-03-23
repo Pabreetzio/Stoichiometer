@@ -31,6 +31,7 @@
   -ms-user-select: none;
   user-select: none;
   background-color: #DDDDDD;
+  height: 34px;
 }
 .tag-default {
   color: #333;

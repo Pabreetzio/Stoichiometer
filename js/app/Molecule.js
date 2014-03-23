@@ -8,7 +8,7 @@
     self.composition = Molecule.getComposition(self.molecularFormula);
     self.getFormattedMolecularFormula = function () {
         var coefficient2 = self.coefficient && self.coefficient !== 1 ? self.coefficient : '';
-        return coefficient2 + self.molecularFormula.replace(/[1-9]/g, '<sub>$&</sub>');
+        return coefficient2 + self.molecularFormula.replace(/[0-9]+/g, '<sub>$&</sub>');
     }
     self.setCoefficient = function (coefficient) {
         self.coefficient = coefficient;
