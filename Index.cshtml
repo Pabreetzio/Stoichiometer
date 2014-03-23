@@ -3,27 +3,42 @@
     <link type="text/css" rel="stylesheet" href="@Href("~/style/periodic-table.css")" />
 }
 @section scripts{
+    <script type="text/javascript" src="@Href("~/js/lib/sylvester.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Reaction.js")"></script>
     <script type="text/javascript" src="@Href("~/data/TableOfElements.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/PeriodicTable.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")" ></script>
-    <script type="text/javascript">
-        $('#periodic-table').html(new PeriodicTable({ "class": "symbol-only" }));
-        $(document).on('click', '.periodic-table-cell', function (e) {
-            var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').texth
-            var newVal = $('#reactants').val() + symbol;
-            $('#reactants').val(newVal);
-        });
-
-        var molecule = new Object();
-
+    <script type="text/html" id="molecule-template">
+        <div class="tag tag-default">
+            <span  data-bind="html: moleculeText"></span><button class="close" style="margin-left:4px;" data-bind="click: $root.removeMolecule">&times;</button>
+        </div>
     </script>
+    <script type="text/javascript" src="@Href("~/js/app/stoichiometer.js")" ></script>
 }
-<i>
-    <input id="reactants"/> 
-    +
-    <input id="products"/>
-    <button id="balance-equation-btn btn">Balance Equation</button>
-</i>
+<div class="well">
+    <i data-reaction-side="reactants" data-bind="template: { name: 'molecule-template', foreach: reactants }"></i>
+    <i class="glyphicon glyphicon-arrow-right"></i>
+    <i data-reaction-side="products" class="products" data-bind="template: { name: 'molecule-template', foreach: products }"></i>
+    <i class="tag tag-primary pull-right" data-bind="with: activeMolecule">
+        <span  data-bind="html: moleculeText"></span>
+    </i>
+</div>
+<div>
+    <button class="btn btn-default" data-bind="click: addReactant">Add Reactant</button>
+    <button class="btn btn-default" data-bind="click: addProduct">Add Product</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">1</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">2</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">3</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">4</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">5</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">6</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">7</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">8</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">9</button>
+    <button class="btn btn-default number" data-bind="click: $.noop">0</button>
+    <button class="btn btn-default" data-bind="click: balance">Balance</button>
+    <button class="btn btn-default" data-bind="click: clear">Clear</button>
+    <button class="btn btn-default" data-bind="click: clearEntry">Clear Entry</button>
+</div>
 <div id="periodic-table"></div>
