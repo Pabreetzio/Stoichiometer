@@ -1,0 +1,36 @@
+﻿@{Layout = "~/_Layout.cshtml";}
+    Create a reaction using the following syntax:
+    <pre>
+        var rusting = new Reaction({
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
+        });
+    </pre>
+    Show the reaction by calling it's toString() method:
+    <pre>
+        rusting.toString();
+    </pre>
+    output: <pre data-bind="text: rusting.toString();"></pre>
+    Then make a call to balance the reaction.
+    <pre>
+        balanceReaction(rusting);
+    </pre>
+    output: <pre data-bind="text: rustingExampleTwo.toString();"></pre>
+@section scripts{
+    <script type="text/javascript" src="../js/lib/sylvester.js"></script>
+    <script type="text/javascript" src="../js/app/Molecule.js"></script>
+    <script type="text/javascript" src="../js/app/Reaction.js"></script>
+    <script>
+        var rusting = new Reaction({
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
+        });
+
+        var rustingExampleTwo = new Reaction({
+            reactants: [new Molecule('MgO'), new Molecule('Fe')],
+            products: [new Molecule('Fe2O3'), new Molecule('Mg')]
+        });
+        rustingExampleTwo.balance();
+        ko.applyBindings();
+      </script>
+}
