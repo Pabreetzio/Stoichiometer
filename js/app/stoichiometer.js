@@ -30,6 +30,14 @@ Stoichiometer = function () {
     self.enterProductsEntryMode = function () { self.isReactantEntryMode(false); }
     self.reactants = ko.observableArray([]);
     self.products = ko.observableArray([]);
+
+    function switchEntryMode() {
+        self.isReactantEntryMode() ? self.enterProductsEntryMode() : self.enterReactantsEntryMode();
+    }
+    self.add = function(){
+        self.isReactantEntryMode() ? self.addReactant() : self.addProduct();
+    }
+
     self.addProduct = function () {
         self.products.push(self.activeMolecule());
         self.clearEntry();
@@ -57,20 +65,73 @@ Stoichiometer = function () {
     self.clearEntry = function () {
         self.activeMolecule(new koMolecule(''));
     };
+
+    self.removeLastCharacter = function () {
+        var oldFormula = self.activeMolecule().molecularFormula || '';
+        if (oldFormula.length > 0) {
+            self.activeMolecule(new koMolecule(oldFormula.slice(0, oldFormula.length - 1)));
+        }
+    }
+
     ko.applyBindings(self);
 
     function addSymbolToActiveElement(symbol) {
         var newVal = (self.activeMolecule().molecularFormula || '') + symbol;
         self.activeMolecule(new koMolecule(newVal));
     }
+
+
     $(document).on('click', '.periodic-table-cell', function (e) {
         var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').text();
         addSymbolToActiveElement(symbol);
+        $(document.activeElement).blur();
     });
     $(document).on('click', '.number', function (e) {
         var symbol = $(e.currentTarget).text();
         addSymbolToActiveElement(symbol);
     });
+    $(document).on('keydown keypress', function (event) {
+        switch (event.keyCode) {
+            case keyboard.ENTER:
+                enterPressed();
+                break;
+            case keyboard.TAB:
+                switchEntryMode();
+                break;
+            case keyboard.FORWARD_SLASH:
+                switchEntryMode();
+                break;
+            case keyboard.LEFT_ARROW:
+                self.enterReactantsEntryMode();
+                break;
+            case keyboard.RIGHT_ARROW:
+                self.enterProductsEntryMode();
+                break;
+            case keyboard.PLUS:
+            case keyboard.ADD:
+                self.add();
+                break;
+            case keyboard.BACKSPACE:
+                self.removeLastCharacter();
+                event.preventDefault();
+                break;
+            default:
+                if(event.type === 'keypress')
+                    addSymbolToActiveElement(String.fromCharCode(event.keyCode));
+        }
+    });
+
+    function enterPressed() {
+        if (self.activeMolecule().molecularFormula === "") {
+            if (self.isReactantEntryMode()) {
+                self.isReactantEntryMode(false);
+            } else {
+                self.balance();
+            }
+        } else {
+            self.add();
+        }
+    }
 };
 
 window.stoichiometer = new Stoichiometer();

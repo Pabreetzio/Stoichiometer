@@ -4,3 +4,4 @@
 /// <reference path="lib/lodash.compat.debug.js" />
 /// <reference path="lib/sylvester.debug.js" />
 /// <reference path="lib/jquery.fittext.js" />
+/// <reference path="lib/keyboard_codes.js" />

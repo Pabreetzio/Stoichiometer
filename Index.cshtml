@@ -7,6 +7,7 @@
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Reaction.js")"></script>
     <script type="text/javascript" src="@Href("~/data/TableOfElements.js")"></script>
+    <script type="text/javascript" src="@Href("~/js/lib/keyboard_codes.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/PeriodicTable.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")" ></script>
     <script type="text/html" id="molecule-template">
@@ -25,8 +26,15 @@
     </i>
 </div>
 <div>
-    <button class="btn btn-default" data-bind="click: addReactant">Add Reactant</button>
-    <button class="btn btn-default" data-bind="click: addProduct">Add Product</button>
+    <button class="btn btn-default" data-bind="click: add">Add</button>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default acitve" data-bind="css: {active: isReactantEntryMode}, click: enterReactantsEntryMode">
+            Reactants
+        </button>
+        <button type="button" class="btn btn-default" data-bind="css: {active: !isReactantEntryMode()}, click: enterProductsEntryMode">
+            Products
+        </button>
+    </div>
     <button class="btn btn-default number" data-bind="click: $.noop">1</button>
     <button class="btn btn-default number" data-bind="click: $.noop">2</button>
     <button class="btn btn-default number" data-bind="click: $.noop">3</button>
@@ -37,8 +45,9 @@
     <button class="btn btn-default number" data-bind="click: $.noop">8</button>
     <button class="btn btn-default number" data-bind="click: $.noop">9</button>
     <button class="btn btn-default number" data-bind="click: $.noop">0</button>
-    <button class="btn btn-default" data-bind="click: balance">Balance</button>
+    <button class="btn btn-default" data-bind="click: balance" id="balance-button">Balance</button>
     <button class="btn btn-default" data-bind="click: clear">Clear</button>
     <button class="btn btn-default" data-bind="click: clearEntry">Clear Entry</button>
+    <button class="btn btn-default" data-bind="click: removeLastCharacter">Backspace</button>
 </div>
 <div id="periodic-table"></div>
