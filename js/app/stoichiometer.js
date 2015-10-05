@@ -73,13 +73,14 @@ Stoichiometer = function () {
         }
     }
 
-    ko.applyBindings(self);
+    self.debugging = ko.observable(true);
+
+    ko.applyBindings(self, document.getElementById("stoichiometer"));
 
     function addSymbolToActiveElement(symbol) {
         var newVal = (self.activeMolecule().molecularFormula || '') + symbol;
         self.activeMolecule(new koMolecule(newVal));
     }
-
 
     $(document).on('click', '.periodic-table-cell', function (e) {
         var symbol = $(e.currentTarget).find('.periodic-table-element-symbol').text();
@@ -132,6 +133,7 @@ Stoichiometer = function () {
             self.add();
         }
     }
+
 };
 
 window.stoichiometer = new Stoichiometer();

@@ -12,6 +12,7 @@
     <script type="text/javascript" src="@Href("~/js/lib/keyboard_codes.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/PeriodicTable.js")"></script>
     <script type="text/javascript" src="@Href("~/js/app/Molecule.js")" ></script>
+<script type="text/javascript" src="@Href("~/js/app/stoichiometerTests.js")"></script>
     <script type="text/html" id="molecule-template">
         <div class="tag tag-default">
             <span  data-bind="html: moleculeText"></span><button class="close" style="margin-left:4px;" data-bind="click: $root.removeMolecule">&times;</button>
@@ -19,37 +20,47 @@
     </script>
     <script type="text/javascript" src="@Href("~/js/app/stoichiometer.js")" ></script>
 }
-<div class="well">
-    <i data-reaction-side="reactants" data-bind="template: { name: 'molecule-template', foreach: reactants }"></i>
-    <i class="glyphicon glyphicon-arrow-right"></i>
-    <i data-reaction-side="products" class="products" data-bind="template: { name: 'molecule-template', foreach: products }"></i>
-    <i class="tag tag-primary pull-right" data-bind="with: activeMolecule">
-        <span  data-bind="html: moleculeText"></span>
-    </i>
-</div>
-<div>
-    <button class="btn btn-default" data-bind="click: add">Add</button>
-    <div class="btn-group">
-        <button type="button" class="btn btn-default acitve" data-bind="css: {active: isReactantEntryMode}, click: enterReactantsEntryMode">
-            Reactants
-        </button>
-        <button type="button" class="btn btn-default" data-bind="css: {active: !isReactantEntryMode()}, click: enterProductsEntryMode">
-            Products
-        </button>
+<div id="stoichiometer">
+    <div class="well">
+        <i data-reaction-side="reactants" data-bind="template: { name: 'molecule-template', foreach: reactants }"></i>
+        <i class="glyphicon glyphicon-arrow-right"></i>
+        <i data-reaction-side="products" class="products" data-bind="template: { name: 'molecule-template', foreach: products }"></i>
+        <i class="tag tag-primary pull-right" data-bind="with: activeMolecule">
+            <span  data-bind="html: moleculeText"></span>
+        </i>
     </div>
-    <button class="btn btn-default number" data-bind="click: $.noop">1</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">2</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">3</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">4</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">5</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">6</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">7</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">8</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">9</button>
-    <button class="btn btn-default number" data-bind="click: $.noop">0</button>
-    <button class="btn btn-default" data-bind="click: balance" id="balance-button">Balance</button>
-    <button class="btn btn-default" data-bind="click: clear">Clear</button>
-    <button class="btn btn-default" data-bind="click: clearEntry">Clear Entry</button>
-    <button class="btn btn-default" data-bind="click: removeLastCharacter">Backspace</button>
+    <div>
+        <button class="btn btn-default" data-bind="click: add">Add</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default acitve" data-bind="css: {active: isReactantEntryMode}, click: enterReactantsEntryMode">
+                Reactants
+            </button>
+            <button type="button" class="btn btn-default" data-bind="css: {active: !isReactantEntryMode()}, click: enterProductsEntryMode">
+                Products
+            </button>
+        </div>
+        <button class="btn btn-default number" data-bind="click: $.noop">1</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">2</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">3</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">4</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">5</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">6</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">7</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">8</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">9</button>
+        <button class="btn btn-default number" data-bind="click: $.noop">0</button>
+        <button class="btn btn-default" data-bind="click: balance" id="balance-button">Balance</button>
+        <button class="btn btn-default" data-bind="click: clear">Clear</button>
+        <button class="btn btn-default" data-bind="click: clearEntry">Clear Entry</button>
+        <button class="btn btn-default" data-bind="click: removeLastCharacter">Backspace</button>
+    </div>
+    <div id="periodic-table"></div>
+    </div>
+<div id="debugging" data-bind="visible: on" style="display: none;">
+    <h2>Debugger</h2>
+    <div data-bind="foreach: reactions">
+        <span>
+            <button class="btn" data-bind="text: $data, click: addReactionFromText"></button>
+        </span>
+    </div>
 </div>
-<div id="periodic-table"></div>
