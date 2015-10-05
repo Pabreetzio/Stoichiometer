@@ -23,8 +23,8 @@ Molecule.getComposition = function (formula) {
         var elementQuantityStringMatches = elementGroup.match(/\d/);
         var quantity = elementQuantityStringMatches ? elementQuantityStringMatches[0] : 1;
         typeof composition[element] === 'number' ?
-            composition[element] += quantity :
-            composition[element] = quantity;
+            composition[element] += Number(quantity) :
+            composition[element] = Number(quantity);
     });
     return composition;
 }
