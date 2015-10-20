@@ -1,6 +1,6 @@
 ﻿Array.prototype.nullspace = function () {
     var self = this;
-
+    var debug = true;
     function Matrix(arrayArray) {
         var matrix = this;
         matrix.value = arrayArray.slice();
@@ -21,6 +21,7 @@
                     modifiedRow.push(thisRow.value[columnNumber] * scalar);
                 }
                 matrix.value[rowNumber] = modifiedRow;
+                log("Row " + thisRow.number + " multiplied times " + scalar + ".");
             };
 
             thisRow.addScalarMultipleOfAnotherRow = function (otherRow, scalar) {
@@ -31,6 +32,9 @@
                     modifiedRow.push(rowValue + (otherRowValue * scalar));
                 }
                 matrix.value[rowNumber] = modifiedRow;
+
+                log("Row " + otherRow.number + " added to row " + thisRow.number +
+                    " times " + scalar + ".");
             };
 
             return thisRow;
@@ -48,8 +52,21 @@
             return rowNumber === columnNumber && columnNumber < matrix.pivotColumns;
         }
 
+        function getPivotRow(columnNumber) {
+            //What if there is no pivot row for the column? cant make five zero if matrix is [[1,5,2],[0,0,1],[0,0,0]].
+            if (matrix.value[columnNumber][columnNumber] === 0)
+                log("Unable to find pivot row for column " + columnNumber)
+            return matrix.row(columnNumber);
+        }
+
         matrix.makeZero = function (rowNumber, columnNumber) {
-            matrix.row(rowNumber).addScalarMultipleOfAnotherRow(matrix.row(columnNumber), matrix.value[rowNumber][columnNumber] * -1);
+            var pivotRow = getPivotRow(columnNumber);
+            var rowBeingModified = matrix.row(rowNumber);
+            if (pivotRow.value[columnNumber] % rowBeingModified.value[columnNumber] !== 0){
+                pivotRow.multiplyTimesScalar(greatestCommonDenominator(pivotRow.value[columnNumber], rowBeingModified.value[columnNumber]));
+                pivotRow = getPivotRow(columnNumber);
+            }
+            rowBeingModified.addScalarMultipleOfAnotherRow(pivotRow, pivotRow.value[columnNumber] / matrix.value[rowNumber][columnNumber] * -1);
         };
 
         function greatestCommonDenominator(a, b) {
@@ -74,10 +91,13 @@
             }
         }
 
-        matrix.swapRows = function(rowOne, rowTwo){
+        matrix.swapRows = function (rowOne, rowTwo) {
+            if (rowOne.rowNumber === rowTwo.rowNumber)
+                return;
             var swapRowValue = rowOne.value.slice();
             matrix.value[rowOne.number] = rowTwo.value.slice();
             matrix.value[rowTwo.number] = swapRowValue;
+            log("Row " + rowOne.number + " swapped with row " + rowTwo.number + ".");
         }
 
 
@@ -86,7 +106,7 @@
                 if (matrix.value[swapRowNumber][columnNumber] !== 0)
                     return matrix.row(swapRowNumber);
             }
-            throw Error("Unable to find null space.")
+            return matrix.row(rowNumber);
         }
 
         function makeSwaps(rowNumber, columnNumber) {
@@ -94,11 +114,11 @@
                 matrix.swapRows(matrix.row(rowNumber), getNextSwappableRow(rowNumber, columnNumber));
         }
 
-        matrix.makeOne = function (rowNumber, columnNumber) {
+        matrix.reduce = function (rowNumber, columnNumber) {
             //multiply row by its inverse.
             makeSwaps(rowNumber, columnNumber);
-            var divisor = matrix.value[rowNumber][columnNumber];
-            var scalar = 1 / matrix.value[rowNumber][columnNumber];
+            var divisor = matrix.value[rowNumber][columnNumber] || matrix.commonMultiple;
+            var scalar = matrix.commonMultiple / matrix.value[rowNumber][columnNumber];
             updateLeastCommonMultiple(rowNumber, divisor)
             matrix.row(rowNumber).multiplyTimesScalar(scalar);
         };
@@ -108,13 +128,27 @@
     }
     var matrix = new Matrix(self);
 
+    function getFirstNonZeroElementColumnNumber(rowNumber) {
+        if (rowNumber < 0)
+            return -1;
+        for (var columnNumber = 0; columnNumber < matrix.columns; columnNumber++) {
+            if (matrix.value[rowNumber][columnNumber] !== 0)
+                return columnNumber;
+        }
+        return matrix.columns;
+    }
+
+    function log(message) {
+        if (debug)
+            console.log(message+ "\n Result:" + JSON.stringify(matrix.value) );
+    }
     !function makeMatrixAugmentedUpperUnitriangular(matrix) {
         for (var columnNumber = 0; columnNumber < matrix.pivotColumns; columnNumber++) {
             for (var rowNumber = 0; rowNumber < matrix.rows; rowNumber++) {
-                if (rowNumber === columnNumber) {
-                    matrix.makeOne(rowNumber, columnNumber);
-                }
-                if (rowNumber > columnNumber) {
+                //if (columnNumber === getFirstNonZeroElementColumnNumber(rowNumber)) {
+                //    matrix.reduce(rowNumber, columnNumber);
+                //}
+                if (columnNumber <= getFirstNonZeroElementColumnNumber(rowNumber - 1)) {
                     matrix.makeZero(rowNumber, columnNumber);
                 }
             }
@@ -129,22 +163,41 @@
         }
     }(matrix);
 
+    !function reduceMatrix(matrix) {
+        for (var columnNumber = 0; columnNumber < matrix.pivotColumns; columnNumber++) {
+            for (var rowNumber = 0; rowNumber < matrix.rows; rowNumber++) {
+                if (columnNumber === getFirstNonZeroElementColumnNumber(rowNumber)) {
+                    matrix.reduce(rowNumber, columnNumber);
+                }
+            }
+        }
+    }(matrix);
+
     //take free part and multiply by negative one.
     
+
+    log("Free part taken from reduced row echelon form.");
+
     for (var rowNumber = 0; rowNumber < matrix.rows; rowNumber++) {
         matrix.value[rowNumber][matrix.columns - 1] = matrix.value[rowNumber][matrix.columns - 1] * -1;
     }
+    log("Matrix multiplied by -1.");
+
     for (var rowNumber = matrix.pivotColumns; rowNumber < matrix.rows; rowNumber++)
     {
         //add identity matrix
         matrix.value[rowNumber][matrix.columns - 1] = 1;
     }
+    log("Identity matrix added to rows corresponding to free columns.");
 
     var kernel = matrix.column(matrix.columns - 1).value;
+    log("Null space calculated to be " + kernel + ".");
+
     for (var index = 0; index < kernel.length; index++)
     {
         kernel[index] = Math.round(kernel[index] * matrix.commonMultiple);
     }
+    
 
     return kernel;
 }
