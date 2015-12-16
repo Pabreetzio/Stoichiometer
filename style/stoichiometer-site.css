@@ -31,12 +31,11 @@
   -ms-user-select: none;
   user-select: none;
   background-color: #DDDDDD;
-  height: 34px;
 }
 .tag-default {
   color: #333;
   background-color: #fff;
-  border-color: #cccccc;
+  border-color: #ccc;
 }
 .tag-success {
   color: #ffffff;
@@ -62,4 +61,7 @@
   color: #ffffff;
   background-color: #d9534f;
   border-color: #d43f3a;
+}
+span button {
+  margin: 2px;
 }

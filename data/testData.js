@@ -11,7 +11,7 @@
 		"H2SiCl2 + H2O -> H8Si4O4 + HCl",
 		"HSiCl3 + H2O -> H10Si10O15 + HCl",
 		"C7H9 + HNO3 -> C7H6(NO2)3 + H2O",
-		"C5H8O2 + NaH + HCl -> C5H12O2 + NaCl"
+		"C5H8O2 + NaH + HCl -> C5H12O2 + NaCl",
 		"C6H6 + H2O2 -> CO2 + H2O"
 		]
 
