@@ -1,9 +1,9 @@
 Stoichiometer
 =============
 Stoichiometer is a stoichiometry calculator meant to help balance chemical equations.
-Demo
+<!--Demo
 ----
-[http://stoichiometer.com/](http://stoichiometer.com/)
+[http://stoichiometer.com/](http://stoichiometer.com/) -->
 Built Using the following
 -------------------------
 + [ASP.NET Web Pages](http://www.asp.net/web-pages)
